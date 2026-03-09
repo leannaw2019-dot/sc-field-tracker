@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>SC Field Tracker</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+  />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- =========================================================
+         TOP BAR
+    ========================================================== -->
+    <header class="topbar">
+      <div>
+        <h1>SC Field Tracker</h1>
+        <p class="subtitle">Pick field. Pick equipment. Start job. Drive.</p>
+      </div>
+
+      <nav class="topnav">
+        <button id="navJob" class="nav-btn active" type="button">Job</button>
+        <button id="navSetup" class="nav-btn" type="button">Setup</button>
+      </nav>
+    </header>
+
+    <!-- =========================================================
+         PAGE: JOB
+    ========================================================== -->
+    <section id="jobPage" class="page active">
+      <div class="page-grid">
+
+        <aside class="panel controls-panel">
+          <h2>Job</h2>
+
+          <div class="field-block">
+            <label for="fieldSelect">Field</label>
+            <select id="fieldSelect"></select>
+          </div>
+
+          <div class="field-block">
+            <label for="equipmentSelect">Equipment</label>
+            <select id="equipmentSelect"></select>
+          </div>
+
+          <div class="timer-card">
+            <div class="timer-label">Elapsed Time</div>
+            <div id="jobTimer" class="timer-value">00:00:00</div>
+          </div>
+
+          <div class="button-stack">
+            <button id="startJobBtn" class="btn btn-primary" type="button">Start Job</button>
+            <button id="pauseJobBtn" class="btn btn-warn" type="button">Pause</button>
+            <button id="stopJobBtn" class="btn btn-danger" type="button">Stop</button>
+            <button id="centerJobBtn" class="btn" type="button">Center on Me</button>
+            <button id="clearCoverageBtn" class="btn" type="button">Clear Coverage</button>
+          </div>
+
+          <div class="status-card">
+            <div><strong>Status:</strong> <span id="jobStatus">Ready</span></div>
+            <div><strong>GPS:</strong> <span id="gpsStatus">Idle</span></div>
+          </div>
+        </aside>
+
+        <main class="panel map-panel">
+          <div class="map-wrap">
+            <div id="jobMap"></div>
+          </div>
+        </main>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         PAGE: SETUP
+    ========================================================== -->
+    <section id="setupPage" class="page">
+      <div class="page-grid">
+
+        <aside class="panel controls-panel">
+          <h2>Setup</h2>
+
+          <!-- =========================
+               FIELD SETUP
+          ========================== -->
+          <div class="setup-section">
+            <h3>Fields</h3>
+
+            <div class="field-block">
+              <label for="fieldNameInput">Field Name</label>
+              <input id="fieldNameInput" type="text" placeholder="North Hay Field" />
+            </div>
+
+            <div class="button-stack">
+              <button id="startPerimeterBtn" class="btn btn-primary" type="button">Start Perimeter</button>
+              <button id="stopPerimeterBtn" class="btn btn-warn" type="button">Stop Perimeter</button>
+              <button id="saveFieldBtn" class="btn" type="button">Save Field</button>
+              <button id="clearPerimeterBtn" class="btn btn-danger" type="button">Clear Perimeter</button>
+              <button id="centerSetupBtn" class="btn" type="button">Center on Me</button>
+            </div>
+
+            <div class="status-card">
+              <div><strong>Perimeter:</strong> <span id="perimeterStatus">Not recording</span></div>
+              <div><strong>Points:</strong> <span id="perimeterPoints">0</span></div>
+            </div>
+
+            <div class="list-card">
+              <div class="list-title">Saved Fields</div>
+              <ul id="fieldList" class="data-list"></ul>
+            </div>
+          </div>
+
+          <!-- =========================
+               EQUIPMENT SETUP
+          ========================== -->
+          <div class="setup-section">
+            <h3>Equipment</h3>
+
+            <div class="field-block">
+              <label for="equipmentNameInput">Equipment Name</label>
+              <input id="equipmentNameInput" type="text" placeholder="6 ft Cutter" />
+            </div>
+
+            <div class="field-block">
+              <label for="equipmentWidthInput">Width (feet)</label>
+              <input id="equipmentWidthInput" type="number" step="0.1" min="0" placeholder="6" />
+            </div>
+
+            <div class="button-stack">
+              <button id="addEquipmentBtn" class="btn btn-primary" type="button">Add Equipment</button>
+            </div>
+
+            <div class="list-card">
+              <div class="list-title">Saved Equipment</div>
+              <ul id="equipmentList" class="data-list"></ul>
+            </div>
+          </div>
+        </aside>
+
+        <main class="panel map-panel">
+          <div class="map-wrap">
+            <div id="setupMap"></div>
+          </div>
+        </main>
+
+      </div>
+    </section>
+
+  </div>
+
+ <script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPzH73mLZLMGigS0s0Sacyk-cxUrFq30&libraries=geometry"
+defer>
+</script>
+
+<script src="app.js"></script>
+</body>
+</html>
