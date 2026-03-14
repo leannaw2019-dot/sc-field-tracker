@@ -257,111 +257,125 @@ button{
   border:none;
   border-radius:10px;
   height:46px;
-
-  font-weight:700;
-  color:white;
-
+  padding:0 14px;
+  font-weight:600;
+  color:#ffffff;
   cursor:pointer;
+  transition:transform 0.15s ease, opacity 0.15s ease;
+}
 
-  box-shadow:0 4px 10px rgba(0,0,0,0.35);
-
-  transition:transform .1s ease;
+button:hover{
+  transform:translateY(-1px);
 }
 
 button:active{
-  transform:translateY(2px);
+  transform:translateY(0);
+  opacity:0.92;
 }
 
 
 
 /* =========================================================
-BUTTON COLORS
-THIS IS FOR: job buttons + field setup buttons
-========================================================= */
-
-#startJobBtn,
-#startPerimeterBtn{
-  background: var(--btn-start);
-}
-
-#pauseJobBtn{
-  background: var(--btn-pause);
-  color: black;
-}
-
-#stopJobBtn,
-#stopPerimeterBtn{
-  background: var(--btn-stop);
-}
-
-#clearCoverageBtn,
-#clearPerimeterBtn{
-  background: var(--btn-clear);
-}
-
-/* Save Field — yellow */
-
-#saveFieldBtn{
-  background: var(--btn-pause);
-  color: black;
-}
-
-/* Add Equipment — stays teal */
-
-#addEquipmentBtn{
-  background: var(--btn-save);
-}
-
-#centerJobBtn,
-#centerSetupBtn{
-  background: #6b8fbf;
-}
-/* =========================================================
-BUTTON GRID
+BUTTON GRIDS
 ========================================================= */
 
 .button-grid{
   display:grid;
-  gap:8px;
-  grid-template-columns:1fr;
-}
-
-.button-grid.two{
-  grid-template-columns:1fr;
+  gap:10px;
 }
 
 .button-grid.one{
   grid-template-columns:1fr;
 }
 
+.button-grid.two{
+  grid-template-columns:1fr 1fr;
+}
+
+
+
 /* =========================================================
-STATUS CARDS
+JOB PAGE BUTTON COLORS
+========================================================= */
+
+#startJobBtn{
+  background:var(--btn-start);
+}
+
+#pauseJobBtn{
+  background:var(--btn-pause);
+  color:#101010;
+}
+
+#stopJobBtn{
+  background:var(--btn-stop);
+}
+
+#clearCoverageBtn,
+#centerJobBtn{
+  background:var(--btn-clear);
+}
+
+
+
+/* =========================================================
+SETUP PAGE BUTTON COLORS
+========================================================= */
+
+#startPerimeterBtn{
+  background:var(--btn-start);
+}
+
+#stopPerimeterBtn{
+  background:var(--btn-stop);
+}
+
+#saveFieldBtn,
+#addEquipmentBtn{
+  background: var(--btn-save);
+  color: #ffffff;
+}
+
+#clearPerimeterBtn,
+#centerSetupBtn{
+  background:var(--btn-clear);
+}
+
+
+
+/* =========================================================
+STAT CARDS
 ========================================================= */
 
 .stat-card{
-  background:var(--surface);
-  border:1px solid var(--border);
+  padding:12px;
   border-radius:10px;
-  padding:10px;
+  border:1px solid var(--border);
+  background:var(--surface);
 }
 
 .stat-label{
   font-size:0.75rem;
-  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--soft);
+  margin-bottom:6px;
 }
 
 .stat-value{
-  font-weight:700;
+  font-size:0.95rem;
+  color:var(--text);
 }
 
 .stat-value.big{
-  font-size:1.6rem;
+  font-size:1.35rem;
+  font-weight:700;
 }
 
 
 
 /* =========================================================
-MAP
+MAP AREA
 ========================================================= */
 
 .map-box{
@@ -397,6 +411,20 @@ SAVED LISTS
   border-radius:8px;
 
   background:var(--surface);
+}
+
+.saved-list button{
+  height:36px;
+  padding:0 10px;
+  font-size:0.85rem;
+}
+
+.saved-list .view-btn{
+  background:var(--btn-clear);
+}
+
+.saved-list .delete-btn{
+  background:var(--btn-stop);
 }
 
 
@@ -438,6 +466,7 @@ SMALL MOBILE
     align-items:flex-start;
     gap:8px;
     padding:12px;
+    height:auto;
   }
 
   .button-grid.two{
