@@ -2,30 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
   <title>SC Field Tracker</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    crossorigin=""
-  />
 </head>
 <body>
   <div class="app-shell">
 
-    <!-- =========================================================
+    <!-- =====================================================
          TOP BAR
-    ========================================================== -->
+    ====================================================== -->
     <header class="topbar">
-      <div>
-        <h1>SC Field Tracker</h1>
-        <p class="subtitle">Pick field. Pick equipment. Start job. Drive.</p>
+      <div class="brand-wrap">
+        <div class="brand-dot"></div>
+        <div class="brand-text">
+          <h1>SC Field Tracker</h1>
+          <p>Field setup and job coverage</p>
+        </div>
       </div>
 
       <nav class="topnav">
@@ -34,135 +27,227 @@
       </nav>
     </header>
 
-    <!-- =========================================================
-         PAGE: JOB
-    ========================================================== -->
-    <section id="jobPage" class="page active">
+    <!-- =====================================================
+         JOB PAGE
+    ====================================================== -->
+    <main id="jobPage" class="page active">
       <div class="page-grid">
 
-        <aside class="panel controls-panel">
-          <h2>Job</h2>
+        <!-- =========================
+             LEFT COLUMN — CONTROLS
+        ========================== -->
+        <aside class="sidebar stack">
 
-          <div class="field-block">
-            <label for="fieldSelect">Field</label>
-            <select id="fieldSelect"></select>
-          </div>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Job Controls</h2>
+              <div class="panel-hint">Run, pause, stop, and center map</div>
+            </div>
+            <div class="panel-body stack">
 
-          <div class="field-block">
-            <label for="equipmentSelect">Equipment</label>
-            <select id="equipmentSelect"></select>
-          </div>
+              <label class="field">
+                <span class="field-label">Saved Field</span>
+                <select id="fieldSelect"></select>
+              </label>
 
-          <div class="timer-card">
-            <div class="timer-label">Elapsed Time</div>
-            <div id="jobTimer" class="timer-value">00:00:00</div>
-          </div>
+              <label class="field">
+                <span class="field-label">Equipment</span>
+                <select id="equipmentSelect"></select>
+              </label>
 
-          <div class="button-stack">
-            <button id="startJobBtn" class="btn btn-primary" type="button">Start Job</button>
-            <button id="pauseJobBtn" class="btn btn-warn" type="button">Pause</button>
-            <button id="stopJobBtn" class="btn btn-danger" type="button">Stop</button>
-            <button id="centerJobBtn" class="btn" type="button">Center on Me</button>
-            <button id="clearCoverageBtn" class="btn" type="button">Clear Coverage</button>
-          </div>
+              <div class="button-grid one">
+                <button id="startJobBtn" type="button">Start Job</button>
+                <button id="pauseJobBtn" type="button">Pause Job</button>
+                <button id="stopJobBtn" type="button">Stop Job</button>
+                <button id="clearCoverageBtn" type="button">Clear Coverage</button>
+                <button id="centerJobBtn" type="button">Center on Me</button>
+              </div>
 
-          <div class="status-card">
-            <div><strong>Status:</strong> <span id="jobStatus">Ready</span></div>
-            <div><strong>GPS:</strong> <span id="gpsStatus">Idle</span></div>
-          </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Job Status</h2>
+              <div class="panel-hint">Live job info</div>
+            </div>
+            <div class="panel-body stack">
+
+              <div class="stat-card">
+                <div class="stat-label">Status</div>
+                <div id="jobStatus" class="stat-value">Ready</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">GPS</div>
+                <div id="gpsStatus" class="stat-value">Idle</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Timer</div>
+                <div id="jobTimer" class="stat-value big">00:00:00</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Field</div>
+                <div id="jobFieldStats" class="stat-value">No field selected.</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Coverage</div>
+                <div id="jobCoverageStats" class="stat-value">Covered: 0.00 acres</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Completion</div>
+                <div id="jobCompletion" class="stat-value">Completion: 0.0%</div>
+              </div>
+
+            </div>
+          </section>
+
         </aside>
 
-        <main class="panel map-panel">
-          <div class="map-wrap">
-            <div id="jobMap"></div>
-          </div>
-        </main>
+        <!-- =========================
+             RIGHT COLUMN — MAP
+        ========================== -->
+        <section class="main-view">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Job Map</h2>
+              <div class="panel-hint">Live position, field boundary, and coverage</div>
+            </div>
+            <div class="panel-body">
+              <div id="jobMap" class="map-box"></div>
+            </div>
+          </section>
+        </section>
 
       </div>
-    </section>
+    </main>
 
-    <!-- =========================================================
-         PAGE: SETUP
-    ========================================================== -->
-    <section id="setupPage" class="page">
+    <!-- =====================================================
+         SETUP PAGE
+    ====================================================== -->
+    <main id="setupPage" class="page">
       <div class="page-grid">
 
-        <aside class="panel controls-panel">
-          <h2>Setup</h2>
+        <!-- =========================
+             LEFT COLUMN — SETUP
+        ========================== -->
+        <aside class="sidebar stack">
 
-          <!-- =========================
-               FIELD SETUP
-          ========================== -->
-          <div class="setup-section">
-            <h3>Fields</h3>
-
-            <div class="field-block">
-              <label for="fieldNameInput">Field Name</label>
-              <input id="fieldNameInput" type="text" placeholder="North Hay Field" />
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Field Setup</h2>
+              <div class="panel-hint">Record perimeter and save field</div>
             </div>
+            <div class="panel-body stack">
 
-            <div class="button-stack">
-              <button id="startPerimeterBtn" class="btn btn-primary" type="button">Start Perimeter</button>
-              <button id="stopPerimeterBtn" class="btn btn-warn" type="button">Stop Perimeter</button>
-              <button id="saveFieldBtn" class="btn" type="button">Save Field</button>
-              <button id="clearPerimeterBtn" class="btn btn-danger" type="button">Clear Perimeter</button>
-              <button id="centerSetupBtn" class="btn" type="button">Center on Me</button>
+              <label class="field">
+                <span class="field-label">Field Name</span>
+                <input id="fieldNameInput" type="text" placeholder="North pasture" />
+              </label>
+
+              <div class="button-grid one">
+                <button id="startPerimeterBtn" type="button">Start Perimeter</button>
+                <button id="stopPerimeterBtn" type="button">Stop Perimeter</button>
+                <button id="saveFieldBtn" type="button">Save Field</button>
+                <button id="clearPerimeterBtn" type="button">Clear Perimeter</button>
+                <button id="centerSetupBtn" type="button">Center on Me</button>
+              </div>
+
             </div>
+          </section>
 
-            <div class="status-card">
-              <div><strong>Perimeter:</strong> <span id="perimeterStatus">Not recording</span></div>
-              <div><strong>Points:</strong> <span id="perimeterPoints">0</span></div>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Perimeter Status</h2>
+              <div class="panel-hint">Current setup stats</div>
             </div>
+            <div class="panel-body stack">
 
-            <div class="list-card">
-              <div class="list-title">Saved Fields</div>
-              <ul id="fieldList" class="data-list"></ul>
+              <div class="stat-card">
+                <div class="stat-label">Status</div>
+                <div id="perimeterStatus" class="stat-value">Not recording</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Point Count</div>
+                <div id="perimeterPoints" class="stat-value">0</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-label">Field Stats</div>
+                <div id="setupFieldStats" class="stat-value">No perimeter yet.</div>
+              </div>
+
             </div>
-          </div>
+          </section>
 
-          <!-- =========================
-               EQUIPMENT SETUP
-          ========================== -->
-          <div class="setup-section">
-            <h3>Equipment</h3>
-
-            <div class="field-block">
-              <label for="equipmentNameInput">Equipment Name</label>
-              <input id="equipmentNameInput" type="text" placeholder="6 ft Cutter" />
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Saved Fields</h2>
+              <div class="panel-hint">View and delete saved fields</div>
             </div>
-
-            <div class="field-block">
-              <label for="equipmentWidthInput">Width (feet)</label>
-              <input id="equipmentWidthInput" type="number" step="0.1" min="0" placeholder="6" />
+            <div class="panel-body">
+              <ul id="fieldList" class="saved-list"></ul>
             </div>
+          </section>
 
-            <div class="button-stack">
-              <button id="addEquipmentBtn" class="btn btn-primary" type="button">Add Equipment</button>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Equipment</h2>
+              <div class="panel-hint">Save your tool widths</div>
             </div>
+            <div class="panel-body stack">
 
-            <div class="list-card">
-              <div class="list-title">Saved Equipment</div>
-              <ul id="equipmentList" class="data-list"></ul>
+              <label class="field">
+                <span class="field-label">Equipment Name</span>
+                <input id="equipmentNameInput" type="text" placeholder="Bush hog" />
+              </label>
+
+              <label class="field">
+                <span class="field-label">Width (feet)</span>
+                <input id="equipmentWidthInput" type="number" min="0" step="0.1" placeholder="6" />
+              </label>
+
+              <div class="button-grid one">
+                <button id="addEquipmentBtn" type="button">Save Equipment</button>
+              </div>
+
+              <ul id="equipmentList" class="saved-list"></ul>
+
             </div>
-          </div>
+          </section>
+
         </aside>
 
-        <main class="panel map-panel">
-          <div class="map-wrap">
-            <div id="setupMap"></div>
-          </div>
-        </main>
+        <!-- =========================
+             RIGHT COLUMN — MAP
+        ========================== -->
+        <section class="main-view">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Setup Map</h2>
+              <div class="panel-hint">Walk perimeter to build field boundary</div>
+            </div>
+            <div class="panel-body">
+              <div id="setupMap" class="map-box"></div>
+            </div>
+          </section>
+        </section>
 
       </div>
-    </section>
+    </main>
 
   </div>
 
- <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPzH73mLZLMGigS0s0Sacyk-cxUrFq30&libraries=geometry"
-defer>
-</script>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPzH73mLZLMGigS0s0Sacyk-cxUrFq30&libraries=geometry&callback=initFieldTracker"
+    async
+    defer
+  ></script>
 </body>
 </html>
