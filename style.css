@@ -1,356 +1,447 @@
 /* =========================================================
-   FILE 2 — STYLE.CSS
-   PURPOSE:
-   - Full app styling
-   - Job page + Setup page
-   - Phone-friendly layout
+FILE 3 — STYLE.CSS
+SC FIELD TRACKER
+PURPOSE
+• clean layout
+• readable outdoors
+• colored control buttons
+• responsive mobile layout
 ========================================================= */
+
 
 /* =========================================================
-   [01] ROOT TOKENS
+COLOR SYSTEM
 ========================================================= */
-:root {
-  --color-bg: #0f1115;
-  --color-panel: #171a21;
-  --color-panel-2: #1d2230;
-  --color-line: #2c3447;
-  --color-text: #f3f5f7;
-  --color-muted: #aab4c3;
-  --color-accent: #49b37d;
-  --color-accent-2: #67d39b;
-  --color-danger: #c85b5b;
-  --color-warn: #d0a84f;
-  --color-map-bg: #0b0f14;
 
-  --radius: 14px;
-  --radius-sm: 10px;
-  --shadow: 0 10px 24px rgba(0,0,0,.25);
-  --gap: 16px;
-  --control-height: 46px;
-  --max-width: 1450px;
+:root{
+
+  /* ---------- BACKGROUNDS ---------- */
+
+  --bg: #0b1117;                 /* page background */
+  --panel: #101922;              /* card background */
+  --panel-2: #0d151d;            /* deeper panel */
+
+  /* ---------- SURFACE OVERLAYS ---------- */
+
+  --surface: rgba(255,255,255,0.03);
+  --surface-2: rgba(255,255,255,0.05);
+
+  /* ---------- TEXT ---------- */
+
+  --text: #e8f1f6;
+  --muted: rgba(232,241,246,0.72);
+  --soft: rgba(232,241,246,0.54);
+
+  /* ---------- BORDERS ---------- */
+
+  --border: rgba(255,255,255,0.10);
+  --border-2: rgba(255,255,255,0.06);
+
+  /* ---------- ACCENT ---------- */
+
+  --accent: #49b37d;
+  --accent-2: #67d39b;
+
+  /* ---------- BUTTON COLORS ---------- */
+
+  --btn-start: #2ecc71;
+  --btn-pause: #f1c40f;
+  --btn-stop: #e74c3c;
+  --btn-clear: #3498db;
+  --btn-save: #1abc9c;
+
+  /* ---------- ALERT ---------- */
+
+  --danger: #d46c6c;
+
+  /* ---------- LAYOUT ---------- */
+
+  --topbar-h: 72px;
+  --sidebar-w: 360px;
+
+  --font: Inter, system-ui, sans-serif;
+
 }
+
+
 
 /* =========================================================
-   [02] RESET
+GLOBAL RESET
 ========================================================= */
-* {
-  box-sizing: border-box;
+
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: Arial, Helvetica, sans-serif;
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
 }
 
-body {
-  min-height: 100vh;
+
+
+/* =========================================================
+APP SHELL
+========================================================= */
+
+.app-shell{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
-button,
+
+
+/* =========================================================
+TOP BAR
+========================================================= */
+
+.topbar{
+  height:var(--topbar-h);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 18px;
+
+  background:#071019;
+  border-bottom:1px solid var(--border);
+}
+
+.brand-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand-dot{
+  width:12px;
+  height:12px;
+  border-radius:100%;
+  background:var(--accent);
+}
+
+.brand-text h1{
+  margin:0;
+  font-size:1rem;
+}
+
+.brand-text p{
+  margin:0;
+  font-size:0.8rem;
+  color:var(--muted);
+}
+
+
+
+/* =========================================================
+NAV BUTTONS
+========================================================= */
+
+.topnav{
+  display:flex;
+  gap:10px;
+}
+
+.nav-btn{
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  cursor:pointer;
+}
+
+.nav-btn.active{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+
+
+/* =========================================================
+PAGE LAYOUT
+========================================================= */
+
+.page{
+  display:none;
+  padding:16px;
+}
+
+.page.active{
+  display:block;
+}
+
+.page-grid{
+  display:grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  gap:16px;
+}
+
+
+
+/* =========================================================
+PANELS
+========================================================= */
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.panel-head{
+  padding:14px;
+  border-bottom:1px solid var(--border-2);
+}
+
+.panel-head h2{
+  margin:0;
+  font-size:1rem;
+}
+
+.panel-hint{
+  font-size:0.8rem;
+  color:var(--soft);
+}
+
+.panel-body{
+  padding:14px;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+
+
+/* =========================================================
+FORM FIELDS
+========================================================= */
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field-label{
+  font-size:0.85rem;
+  color:var(--muted);
+}
+
 input,
-select {
-  font: inherit;
+select{
+  height:42px;
+  padding:0 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:#0f1720;
+  color:var(--text);
+}
+
+
+
+/* =========================================================
+BUTTON BASE STYLE
+========================================================= */
+
+button{
+  border:none;
+  border-radius:10px;
+  height:46px;
+
+  font-weight:700;
+  color:white;
+
+  cursor:pointer;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.35);
+
+  transition:transform .1s ease;
+}
+
+button:active{
+  transform:translateY(2px);
+}
+
+
+
+/* =========================================================
+BUTTON COLORS
+THIS IS FOR: job buttons + field setup buttons
+========================================================= */
+
+#startJobBtn,
+#startPerimeterBtn{
+  background: var(--btn-start);
+}
+
+#pauseJobBtn{
+  background: var(--btn-pause);
+  color: black;
+}
+
+#stopJobBtn,
+#stopPerimeterBtn{
+  background: var(--btn-stop);
+}
+
+#clearCoverageBtn,
+#clearPerimeterBtn{
+  background: var(--btn-clear);
+}
+
+/* Save Field — yellow */
+
+#saveFieldBtn{
+  background: var(--btn-pause);
+  color: black;
+}
+
+/* Add Equipment — stays teal */
+
+#addEquipmentBtn{
+  background: var(--btn-save);
+}
+
+#centerJobBtn,
+#centerSetupBtn{
+  background: #6b8fbf;
+}
+/* =========================================================
+BUTTON GRID
+========================================================= */
+
+.button-grid{
+  display:grid;
+  gap:8px;
+  grid-template-columns:1fr;
+}
+
+.button-grid.two{
+  grid-template-columns:1fr;
+}
+
+.button-grid.one{
+  grid-template-columns:1fr;
 }
 
 /* =========================================================
-   [03] APP SHELL
+STATUS CARDS
 ========================================================= */
-.app-shell {
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 16px;
+
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  background: linear-gradient(180deg, var(--color-panel-2), var(--color-panel));
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
-  margin-bottom: 16px;
+.stat-label{
+  font-size:0.75rem;
+  color:var(--muted);
 }
 
-.topbar h1 {
-  margin: 0 0 4px 0;
-  font-size: 1.5rem;
+.stat-value{
+  font-weight:700;
 }
 
-.subtitle {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 0.95rem;
+.stat-value.big{
+  font-size:1.6rem;
 }
 
-.topnav {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+
 
 /* =========================================================
-   [04] PAGE SYSTEM
+MAP
 ========================================================= */
-.page {
-  display: none;
+
+.map-box{
+  width:100%;
+  height:65vh;
+  min-height:420px;
 }
 
-.page.active {
-  display: block;
-}
 
-.page-grid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: var(--gap);
-  align-items: stretch;
-}
 
 /* =========================================================
-   [05] PANELS
+SAVED LISTS
 ========================================================= */
-.panel {
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  min-width: 0;
+
+.saved-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
-.controls-panel {
-  padding: 16px;
+.saved-list li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:10px;
+
+  border:1px solid var(--border);
+  border-radius:8px;
+
+  background:var(--surface);
 }
 
-.controls-panel h2,
-.controls-panel h3 {
-  margin-top: 0;
-}
 
-.map-panel {
-  padding: 12px;
-  background: var(--color-panel);
-}
-
-.map-wrap {
-  width: 100%;
-  height: calc(100vh - 132px);
-  min-height: 420px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--color-map-bg);
-  border: 1px solid var(--color-line);
-}
-
-#jobMap,
-#setupMap {
-  width: 100%;
-  height: 100%;
-}
 
 /* =========================================================
-   [06] FIELDS / BLOCKS
+MOBILE LAYOUT
 ========================================================= */
-.field-block {
-  display: grid;
-  gap: 6px;
-  margin-bottom: 12px;
-}
 
-.field-block label {
-  color: var(--color-muted);
-  font-size: 0.93rem;
-}
+@media (max-width: 900px){
 
-.field-block input,
-.field-block select {
-  width: 100%;
-  min-height: var(--control-height);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-line);
-  background: #0f131b;
-  color: var(--color-text);
-  padding: 10px 12px;
-}
-
-.setup-section {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-.setup-section:first-of-type {
-  margin-top: 0;
-  padding-top: 0;
-  border-top: none;
-}
-
-/* =========================================================
-   [07] BUTTONS
-========================================================= */
-.button-stack {
-  display: grid;
-  gap: 10px;
-  margin: 14px 0;
-}
-
-.btn,
-.nav-btn {
-  min-height: var(--control-height);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-line);
-  background: var(--color-panel-2);
-  color: var(--color-text);
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-.btn:hover,
-.nav-btn:hover {
-  border-color: var(--color-accent);
-}
-
-.btn-primary {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #08120d;
-  font-weight: 700;
-}
-
-.btn-warn {
-  background: var(--color-warn);
-  border-color: var(--color-warn);
-  color: #18130a;
-  font-weight: 700;
-}
-
-.btn-danger {
-  background: var(--color-danger);
-  border-color: var(--color-danger);
-  color: #fff;
-  font-weight: 700;
-}
-
-.nav-btn.active {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #08120d;
-  font-weight: 700;
-}
-
-/* =========================================================
-   [08] TIMER / STATUS / LISTS
-========================================================= */
-.timer-card,
-.status-card,
-.list-card {
-  background: #111722;
-  border: 1px solid var(--color-line);
-  border-radius: 12px;
-  padding: 12px;
-  margin-top: 12px;
-}
-
-.timer-label {
-  color: var(--color-muted);
-  font-size: 0.9rem;
-  margin-bottom: 4px;
-}
-
-.timer-value {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.status-card {
-  display: grid;
-  gap: 8px;
-  font-size: 0.96rem;
-}
-
-.list-title {
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.data-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.data-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  background: #0f131b;
-  border: 1px solid var(--color-line);
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.data-list button {
-  border: 1px solid var(--color-line);
-  background: var(--color-panel-2);
-  color: var(--color-text);
-  border-radius: 8px;
-  padding: 8px 10px;
-  cursor: pointer;
-}
-
-/* =========================================================
-   [09] LEAFLET SMALL CLEANUP
-========================================================= */
-.leaflet-container {
-  background: #0f131b;
-}
-
-.leaflet-control-attribution {
-  font-size: 10px;
-}
-
-/* =========================================================
-   [10] RESPONSIVE
-========================================================= */
-@media (max-width: 980px) {
-  .page-grid {
-    grid-template-columns: 1fr;
+  .page-grid{
+    grid-template-columns:1fr;
   }
 
-  .map-wrap {
-    height: 55vh;
-    min-height: 360px;
+  .sidebar{
+    order:2;
   }
+
+  .main-view{
+    order:1;
+  }
+
+  .map-box{
+    height:55vh;
+  }
+
 }
 
-@media (max-width: 640px) {
-  .app-shell {
-    padding: 10px;
+
+
+/* =========================================================
+SMALL MOBILE
+========================================================= */
+
+@media (max-width: 500px){
+
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+    padding:12px;
   }
 
-  .topbar {
-    flex-direction: column;
-    align-items: stretch;
+  .button-grid.two{
+    grid-template-columns:1fr;
   }
 
-  .timer-value {
-    font-size: 1.7rem;
-  }
-
-  .map-wrap {
-    height: 50vh;
-    min-height: 320px;
-  }
 }
